@@ -63,14 +63,18 @@ body {
   background-color: white;
   border-radius: 50%;
   opacity: 0.2;
+  background-repeat: no-repeat;
+  background-size: 24px;
 }
 
 .carouseller .control-button-left {
   background-image: url('prev.svg');
+  background-position: calc(50% - 5px) 50%;
 }
 
 .carouseller .control-button-right {
   background-image: url('next.svg');
+  background-position: calc(50% + 5px) 50%;
 }
 
 .carouseller .nav-box {

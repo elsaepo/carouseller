@@ -1,45 +1,23 @@
-// function carousel(carousel, w, h){
-//     let width = w || carousel.style.width;
-//     let height = h || carousel.style.height;
-//     const slider = carousel.querySelector(".slider");
-//     const slideList = slider.children;
-//     let totalSlides = slideList.length;
-//     let slideIndex = 0;
-//     // 1 is to the right (forwards), -1 is backwards
-//     let direction = 1;
-//     let slideSpeed = 300;
-//     // These two variables control the autoplay interval function
-//     let interval = 5000;
-//     let autoplayIntFunc;
-//     for (let slide of slideList) {
-//       slide.style.width = `${width}px`;
-//       slide.style.height = `${height}px`;
-//     }
-//     return {}
-//   }
-
-// the above is the current progress of turning the function into a factory function, so that methods can be called on specific carousels at a later time
-
-function createCarousel(carousel, width, height) {
+function carouseller(carousel, w, h) {
+    let width = w || carousel.style.width;
+    let height = h || carousel.style.height;
     carousel.style.width = `${width}px`;
     carousel.style.height = `${height}px`;
     const slider = carousel.querySelector(".slider");
     const slideList = slider.children;
-    for (let slide of slideList) {
-        slide.style.width = `${width}px`;
-        slide.style.height = `${height}px`;
-        // temp random bg colour for development
-        slide.style.backgroundColor = `hsl(${Math.random() * 360}, 20%, 80%)`;
-    }
-
-    let totalSlides = slideList.length;
     let slideIndex = 0;
     // 1 is to the right (forwards), -1 is backwards
     let direction = 1;
     let slideSpeed = 300;
     // These two variables control the autoplay interval function
-    let interval = 5000;
+    let interval = 4000;
     let autoplayIntFunc;
+    let autoplayEnabled = true;
+    for (let slide of slideList) {
+        slide.style.width = `${width}px`;
+        slide.style.height = `${height}px`;
+        slide.style.backgroundColor = `hsl(${Math.random() * 360}, 20%, 80%)`;
+    }
 
     function formatSlides(num) {
         if (direction === 1) {
@@ -64,9 +42,11 @@ function createCarousel(carousel, width, height) {
         setTimeout(() => {
             slider.style.transition = `all ease ${slideSpeed / 1000}s`;
         });
-        updateNav();
-    }
+        if (document.querySelector(".nav-box")) {
+            updateNav();
+        };
 
+    }
 
     function createControlButton(dir) {
         const controlButton = document.createElement("div");
@@ -144,7 +124,7 @@ function createCarousel(carousel, width, height) {
     }
 
     function autoplay(status) {
-        if (status) {
+        if (status && autoplayEnabled) {
             autoplayIntFunc = setInterval(slideToNext, interval);
         } else {
             clearInterval(autoplayIntFunc);
@@ -162,7 +142,92 @@ function createCarousel(carousel, width, height) {
     createNav();
     updateNav();
     autoplay(true);
+
+    function setDelay(delay) {
+        if (delay > 0) {
+            autoplayEnabled = true;
+            interval = delay;
+            autoplay(true);
+        } else {
+            autoplayEnabled = false;
+            autoplay(false);
+        }
+    }
+
+    function setSlideSpeed(speed) {
+        if (speed > 0) {
+            slideSpeed = speed;
+            slider.style.transition = `all ease ${slideSpeed / 1000}s`;
+        }
+    }
+
+    function setNavigation(style) {
+        let navBox = carousel.querySelector(".nav-box");
+        if (!style) {
+            navBox.remove();
+        } else {
+            if (!navBox) {
+                createNav();
+                navBox = carousel.querySelector(".nav-box");
+            }
+            switch (style) {
+                case "square":
+                    for (let btn of navBox.children) {
+                        btn.style.width = "10px";
+                        btn.style.borderRadius = "0";
+                    };
+                    break;
+                case "circle":
+                    for (let btn of navBox.children) {
+                        btn.style.width = "10px";
+                        btn.style.borderRadius = "50%";
+                    };
+                    break;
+                case "oval":
+                    for (let btn of navBox.children) {
+                        btn.style.width = "40px";
+                        btn.style.borderRadius = "5px";
+                    };
+                    break;
+                case "rectangle":
+                    for (let btn of navBox.children) {
+                        btn.style.width = "40px";
+                        btn.style.borderRadius = "0";
+                    }
+                    break;
+                default:
+                    return;
+            }
+        }
+    }
+
+    function setControl(style) {
+        let controlBox = carousel.querySelector(".control-box");
+        if (!style) {
+            controlBox.remove();
+        } else {
+            if (!controlBox) {
+                createControl();
+                controlBox = carousel.querySelector(".control-box");
+            }
+            switch (style) {
+                case "circle":
+                    for (let btn of controlBox.children) {
+                        btn.style.borderRadius = "50%";
+                    };
+                    break;
+                case "square":
+                    for (let btn of controlBox.children) {
+                        btn.style.borderRadius = "0";
+                    }
+                    break;
+                default:
+                    return;
+            }
+        }
+    }
+
+    return { setDelay, setSlideSpeed, setNavigation, setControl }
 }
 
-const carousel = document.querySelector(".carouseller");
-createCarousel(carousel, 800, 600);
+let carousel = carouseller(document.querySelector(".carouseller"), 800, 600);
