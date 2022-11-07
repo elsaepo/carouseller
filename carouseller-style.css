@@ -1,0 +1,107 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(220, 220, 220);
+}
+
+#main {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carouseller h4 {
+  font-family: "Courier New", monospace;
+  font-weight: 800;
+  font-size: 3rem;
+  opacity: 0.2;
+}
+
+.carouseller {
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  /*   width: 600px;
+    height: 300px; */
+  overflow: hidden;
+}
+
+.carouseller .slider {
+  display: flex;
+  transition: all 0.3s ease;
+}
+
+.carouseller .slider .slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carouseller .control-box {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 24px;
+  top: calc(50% - 32px);
+  margin: 0 auto;
+  width: 100%;
+  
+}
+
+.carouseller .control-box .control-button {
+  cursor: pointer;
+  width: 64px;
+  height: 64px;
+  background-color: white;
+  border-radius: 50%;
+  opacity: 0.2;
+}
+
+.carouseller .control-button-left {
+  background-image: url('prev.svg');
+}
+
+.carouseller .control-button-right {
+  background-image: url('next.svg');
+}
+
+.carouseller .nav-box {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  gap: 12px;
+  bottom: 20px;
+  width: 100%;
+  
+}
+
+.carouseller .nav-box .nav-button {
+  cursor: pointer;
+  width: 40px;
+  height: 10px;
+  background-color: white;
+  border-radius: 5px;
+  opacity: 0.2;
+}
+
+.carouseller .nav-box .nav-button-active {
+  background-color: black;
+}
+
+.carousel:hover .nav-button, .carouseller:hover .control-button {
+  opacity: 0.4;
+}
+
+.carouseller .control-box .control-button:hover,
+.carouseller .nav-box .nav-button:hover {
+  opacity: 1;
+}
