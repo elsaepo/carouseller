@@ -38,7 +38,7 @@ function carouseller(carousel, w, h) {
         // When changing the location of the elements, we remove the transition then translate the slider to the default position
         slider.style.transition = "none";
         slider.style.transform = "translateX(0)";
-        // Then we reset the transition property with a setTimeout so it is forced to be re-applied only after the slider is in the correct position
+        // Then we reset the transition property with a setTimeout to pass it through the Event Loop - so that it only runs once the slider is in the correct place
         setTimeout(() => {
             slider.style.transition = `all ease ${slideSpeed / 1000}s`;
         });
